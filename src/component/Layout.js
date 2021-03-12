@@ -1,27 +1,22 @@
 
 import l from "./layout.module.css";
 
-const Layout = (props) => {
-
-	 	const sectionStyle = {
-        backgroundColor : props.colorBg,
-        backgroundImage : `url(${props.urlBg})`
-    };
- 
+const Layout = ({title, descr, urlBg=null, colorBg=null}) => {
+	if (!(title && descr)) return null;
 	return(
 			<section
-      style={{ background: props.urlBg ? `url(${props.urlBg})` : props.colorBg }}
-      className={s.root}
-    >
+		      style={{ background: urlBg ? `url(${urlBg})` : colorBg }}
+		      className={l.root}
+    		>
 			    <div className={l.wrapper}>
 			        <article>
 			            <div className={l.title}>
-			                <h3>{props.title}</h3>
+			                <h3>{title}</h3>
 			                <span className={l.separator}></span>
 			            </div>
 			            <div
 			             className={`${l.desc} ${l.full}`}>
-			                <p> {props.descr} </p>
+			                <p> {descr} </p>
 			            </div>
 			        </article>
 			    </div>
