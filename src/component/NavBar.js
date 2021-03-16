@@ -12,7 +12,7 @@ return(
     <a href="/#" 
     className={cm(nav.menuButton,
      {[nav.active]: activationsMenu})} 
-    onClickse = {() => {setActive(!activationsMenu)}}>
+    onClick = {() => {setActive(!activationsMenu)}}>
       <span />
     </a>
   </div>

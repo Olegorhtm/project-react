@@ -2,8 +2,8 @@ import { useState } from "react";
 import Menu from "./menu.js";
 import NavBar from "./NavBar.js";
 
-const MenuHeader = ({pre, onClickse}) => 
-{ 
+const MenuHeader = () => {
+
 const [active, setActive] = useState(null);
 
 return(
