@@ -1,35 +1,12 @@
+import Header from "../../component/Header.js";
+import MenuHeader from "../../component/MenuHeader.js"
+import Layout from "../../component/Layout.js";
+import Footer from "../../component/Footer";
+import PokemonCard from "../../PokemonGame/index.js";
+import backImg from "../../assets/photo.jpg";
+import backImg1 from "../../assets/bg3.jpg";
 
-import { useState } from 'react';
-import Homepage from "./routes/home/Homepage.js";
-import GamePage from "./routes/game/GamePage.js";
-
-const App = () => {
-	const [page, setPage] = useState('app');
-
-	const handleChangePage = (page) => {
-		setPage(page);
-	}
-	const handleResetPage = (page) => {
-		setPage(!page);
-	}
-
-	switch (page) {
-		case "app": 
-			return <Homepage onChangePage = {handleChangePage}/>
-		case "game": 
-			return <GamePage onReset = {handleResetPage}/>
-		default:
-			return <Homepage onChangePage = {handleChangePage}/>
-	}
-};
-
-import Header from "./component/Header.js";
-import Layout from "./component/Layout.js";
-import Footer from "./component/Footer";
-import PokemonCard from "./PokemonGame/index.js"
-import backImg from "./assets/photo.jpg";
-import backImg1 from "./assets/bg3.jpg";
-import "./App.css";
+import "../../App.css";
 
 const POCEMONS = [
     {
@@ -164,17 +141,25 @@ const POCEMONS = [
         "left": 4
       }
     }
-  ];
+  ]; 
 
- const App = () => { 
+ const HomePage = ({onChangePage}) => { 
+
+  const handleClickButton = (page) => {
+    onChangePage && onChangePage(page);
+  };
+
   return (
   <div>
+  <MenuHeader />
   	<Header 
+    id="title"
   		title="Pokemon Game"
+      onClickButton = {handleClickButton}
   	/>
+   
   	<Layout
       id="rules"
-      colorTitle="white"
   		title="Rules"
   		urlBg={backImg1}
   	 >
@@ -193,7 +178,8 @@ const POCEMONS = [
         </div>
      </Layout>
   	<Layout
-    id="about"
+      id="about"
+      colorTitle="white"
   		title="About"
   		urlBg={backImg}
   	 >
@@ -210,5 +196,4 @@ const POCEMONS = [
   );
 };
 
-
-export default App;
+export default HomePage;
