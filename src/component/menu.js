@@ -1,39 +1,56 @@
-import s from "./menu.module.css"
-// import {useState} from "react";
 import cm from 'classnames';
- 
-const Menu = ({activationsMenu}) => {
+import {Link} from 'react-router-dom';
+import s from "./menu.module.css"
 
-  return(
-<div className={cm(s.menuContainer, 
-  {[s.active]: activationsMenu}, 
-  )}>
-  <div className={s.overlay}></div>
-  <div className={s.menuItems}>
-    <ul>
-      <li>
-        <a href="#welcome">
-          HOME
-        </a>
-      </li>
-      <li>
-        <a href="#game">
-          GAME
-        </a>
-      </li>
-      <li>
-        <a href="#about">
-          ABOUT
-        </a>
-      </li>
-      <li>
-        <a href="#contact">
-          CONTACT
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
-)};
+
+const MENU = [
+    {
+      title : 'HOME',
+      to    : '/', 
+    },
+    {
+      title : 'GAME',
+      to    : 'game'
+    },
+    {
+      title : 'ABOUT',
+      to    : 'about'
+    },
+    {
+      title : 'CONTACT',
+      to    : 'contact'
+    }
+]
+
+const Menu = ({ isOpen, onChangeParentState }) => {
+  const deactiveMenuClick=()=>{
+    onChangeParentState && onChangeParentState(!isOpen);
+  }
+    return(
+      <div className={cm(s.menuContainer, { 
+        [s.active]: isOpen === true,
+        [s.deactive]: isOpen === false
+        })}>
+        <div className={s.overlay} />
+        <div>
+          <ul>
+
+            {
+
+                  MENU.map(({title, to}, index) => (
+                                      <li key={index}>
+                  
+                                        <Link to={to} onClick={deactiveMenuClick}> {title} </Link>
+                  
+                                      </li>
+                  
+                                  ))
+
+            }
+          </ul>
+        </div>
+      </div>
+      )};
+  
 
 export default Menu;

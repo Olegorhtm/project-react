@@ -3,7 +3,6 @@ import cm from 'classnames';
 import spc from "./style.module.css"; //StylePokemonCard
 import cardBackSide from "../assets/card-back-side.jpg";
 
-
 const PokemonCard = ({name, img, id, type, values}) => {
 	const [isActive, setActive] = useState(false);
 
