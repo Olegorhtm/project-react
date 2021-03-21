@@ -14,7 +14,7 @@ import "../../App.css";
   };
 
   return (
-  <div>
+   <div>
   	<Header 
     id="title"
   		title="Pokemon Game"

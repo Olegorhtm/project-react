@@ -1,39 +1,67 @@
-import {useHistory} from 'react-router-dom';
-import {useState} from 'react';
-import s from "./style.module.css"
+import { useState, useEffect } from 'react';
+import database from "../../service/firebase.js";
+import s from "./style.module.css";
 import PokemonCard from "../../PokemonGame/index.js";
-import POCEMONS from "../../PokemonGame/PokemonCards.js";
 
 
-const GamePage = ({ isActive }) => {
-	const history = useHistory();
-	const thisClick = () => {
-		history.push('/');
-  }
-  	const [newArry,setNewArry] = useState(JSON.parse(JSON.stringify(POCEMONS)));
-  	const handleClickCards = (id) => {
-  		setNewArry(prevState => prevState.filter(item =>{ 
-  		  			if (item.id === id) {
-  		  				item.active = true;
-  		  			}
-  		  			return true;
-  		  		}))
-  	}
-	return(
+
+const GamePage = () => {
+
+	const [pokemons, setNewArry] = useState({});
+
+
+	const handleClickCards = (id) => {
+		setNewArry(prevState => {
+			return Object.entries(prevState).reduce((acc, item) => {
+				const pokemon = { ...item[1] };
+				if (pokemon.id === id) {
+					pokemon.active = true;					
+				};
+			acc[item[0]] = pokemon	
+			return acc;
+			});
+		}); 
+	};
+
+const data = () => database.ref('pokemons/').once('value', (snapshot) => {setNewArry(snapshot.val())});
+
+	useEffect( async () => {
+		await data()
+	}, [pokemons]);
+
+	const addCard = (key) => {
+		const newKey = database.ref().child('pokemons/').push().key;
+		const copyPokemon = JSON.parse(JSON.stringify('pokemons/'));
+		database.ref('pokemons/' + newKey).set(copyPokemon);
+	}
+
+
+	return (
 		<div>
-			<div>
-				<h1>This page is Game page!</h1>
-				<button className={s.button} onClick={thisClick}>
-				Back, or Home
-				</button>
-			</div>
-			<div className={s.flex} onClick={handleClickCards}>
-			{
-			POCEMONS.map(item => <PokemonCard key={item.id}  {...item}/>)
-			}
-			</div>
+		<div>
+			<button className={s.button} onClick={addCard}>Add New Card</button>
 		</div>
-		)
-};
+
+		<div className={s.flex}>
+			{
+				Object.entries(pokemons).map(([key, { name, img, id, type, values, active }]) => (
+					<PokemonCard
+						key={key}
+						keyId={key}
+						name={name}
+						isActive={true}
+						img={img}
+						id={id}
+						type={type}
+						values={values}
+						onClick={handleClickCards}
+					/>
+				))
+			}
+		</div>
+
+	</div>);
+}
 
 export default GamePage;
+
