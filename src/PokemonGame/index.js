@@ -7,7 +7,6 @@ import sPC from "./style.module.css"; //stylePokemonCard
 
 import cardBackSide from "../assets/card-back-side.jpg";
 
-
 const PokemonCard = ({name, img, id, type, values}) => {
 	const [isActive, setActive] = useState(false);
 

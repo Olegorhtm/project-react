@@ -1,20 +1,22 @@
-// import { useState } from "react";
 import nav from "./navbar.module.css";
 import cm from 'classnames';
-const NavBar = ({activationsMenu, setActive}) => {
 
+const NavBar = ({isOpen, bgActive=false, onClickHumburg}) => {
+  
 return(
-	<nav className={nav.root}>
+	<nav className={cm(nav.root, {[nav.bgActive]: bgActive})}> 
   <div className={nav.navWrapper}>
     <p className={nav.brand}>
       LOGO
     </p>
-    <a href="/#" 
-    className={cm(nav.menuButton,
-     {[nav.active]: activationsMenu})} 
-    onClick = {() => {setActive(!activationsMenu)}}>
+    <div 
+      className={cm(nav.menuButton, {
+        [nav.active]: isOpen
+      })}
+      onClick={onClickHumburg}
+    >
       <span />
-    </a>
+    </div>
   </div>
 </nav>
 )};
