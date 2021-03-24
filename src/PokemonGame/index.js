@@ -6,18 +6,18 @@ import spc from "./style.module.css"; //StylePokemonCard
 import sPC from "./style.module.css"; //stylePokemonCard
 
 import cardBackSide from "../assets/card-back-side.jpg";
+// import GamePage from "../routes/game/GamePage.js"
 
-const PokemonCard = ({name, img, id, type, values}) => {
-	const [isActive, setActive] = useState(false);
+const PokemonCard = ({ name, img, id, type, values}) => {
+	const [active, setActive] = useState(false);
 
-	const thisClick = () => {
 
-	   setActive(!isActive); 
-	};
-
+	const handleClickCards = () => {
+	   setActive(!active); 
+    
 return (
-<div className={spc.root} onClick={thisClick}>
-      <div className={cm(spc.pokemonCard, {[spc.active]: isActive})}>
+<div className={spc.root} onClick={handleClickCards}>
+      <div className={cm(spc.pokemonCard, {[spc.active]: active})}>
         <div className={spc.cardFront}>
             <div className={cm(spc.wrap, spc.front)}>
                 <div className={cm(spc.pokemon, spc.[type])}>
@@ -80,3 +80,4 @@ return (
 };
 
 export default PokemonCard;
+
