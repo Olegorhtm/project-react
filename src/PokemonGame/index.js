@@ -1,3 +1,4 @@
+
 import cn from 'classnames';
 import s from "./style.module.css";
 const PokemonCard = ({ name, img, id, type, values, isActive , handleClickCards, minimize, className, isSelected}) => {
@@ -19,6 +20,8 @@ onClick={() => handleClickCards(id)}>
                     <div className={cn(s.count, s.right)}>{values.right}</div>
                     <div className={cn(s.count, s.bottom)}>{values.bottom}</div>
                     <div className={cn(s.count, s.left)}>{values.left}</div>
+
+
                 </div>
                 <div className={s.imgContainer}>
                     <img src={img} alt={name} />
@@ -36,8 +39,10 @@ onClick={() => handleClickCards(id)}>
         </div>
     </div>
 
+
     <div className={s.cardBack}>
         <div className={cn(s.wrap, s.back)} />
+
     </div>
 
 </div></div>
