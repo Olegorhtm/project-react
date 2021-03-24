@@ -3,19 +3,42 @@ import 'firebase/database';
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDXevs8Lf5QRRYFJPVQfIka330_5Mxht94",
-  authDomain: "pokemon-game-743b7.firebaseapp.com",
-  databaseURL: "https://pokemon-game-743b7-default-rtdb.firebaseio.com",
-  projectId: "pokemon-game-743b7",
-  storageBucket: "pokemon-game-743b7.appspot.com",
-  messagingSenderId: "747575663905",
-  appId: "1:747575663905:web:1be27b6be9652a6742b260"
+  apiKey: "AIzaSyBMtMPkcFV_NBpg5BLscSNtWUpxwDNH7IA",
+  authDomain: "pocemon-game-23778.firebaseapp.com",
+  databaseURL: "https://pocemon-game-23778-default-rtdb.firebaseio.com",
+  projectId: "pocemon-game-23778",
+  storageBucket: "pocemon-game-23778.appspot.com",
+  messagingSenderId: "694107591506",
+  appId: "1:694107591506:web:1267470254f86fa771a08b"
 };
   
   firebase.initializeApp(firebaseConfig);
 
-  export const fire = firebase;
+  class Firebase {
+    constructor(){
+         this.fire = firebase;
+         this.database = this.fire.database();
+    }
+    getPocemonSoket = (cb) => {
+      this.database.ref('pokemons').on('value', (snapshot) => {
+        cb(snapshot.val());
+      })
+    }
+    offPocemonSoket = () => {
+      this.database.ref('pokemons').off()
+    }
+    getPocemonOnce = async () => {
+      return await this.database.ref('pokemons').once('value').then(snapshot => snapshot.val());
+    }
+    postPokemon = (keyId, pokemon) => {
+      this.database.ref(`pokemons/${keyId}`).set(pokemon);
 
-  export const database = fire.database();
-  
-  export default database;
+    }
+    addPokemon = (newArrPok, cb) => {
+    const newKey = this.database.ref().child('pokemons').push().keyId;
+    this.database.ref('pokemons/' + newKey).set(newArrPok).then(() => cb());
+    }
+  }
+
+
+  export default Firebase;
