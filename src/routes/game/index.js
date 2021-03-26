@@ -23,12 +23,12 @@ const GamePage = () => {
        	}
        })
     }
-	const handelSelectCardEnemy = (obj) => {
-		setEnemySelectedPokemons(() =>{ return enemySelectedPokemons })
+	const handelSelectCardEnemy = (initPlayerEnemy) => {
+		setEnemySelectedPokemons(() =>{ return initPlayerEnemy })
 	 }
 	
 	const handelSelectDelete = () => {
-		setSelectedPokemons(prevState => {});
+		setSelectedPokemons(prevState => "");
 	}
 	
     return (

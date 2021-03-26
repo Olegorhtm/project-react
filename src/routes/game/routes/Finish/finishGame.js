@@ -1,44 +1,47 @@
 import s from "./style.module.css";
 import {useHistory} from "react-router-dom";
 import cm from "classnames";
-import {FirebaseContext} from "../../../../context/firebaseContext.js";
+// import {FirebaseContext} from "../../../../context/firebaseContext.js";
 import {PokemonsContext} from '../../../../context/contextPokemon.js';
 import PokemonCard from "../../../../PokemonGame/index.js";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 const FinishPage = () => {
 	const pokemonsContext = useContext(PokemonsContext);
-	const firebase = useContext(FirebaseContext);
+	// const firebase = useContext(FirebaseContext);
 	const history = useHistory();
-
-	const handlClickEsc =()=>{
-		const copyCard = JSON.parse(JSON.stringify(pokemonsContext.enemyPocemon));
-		firebase.addPokemon(copyCard);
-		pokemonsContext.oncleanStateSelected();
-		history.replace('/game');
+	const [pokemons, setNewArry] = useState({});
+	// const handleSelectedEnemyCard = (key, enemyPocemon) => {
+	// 	const pokemon = {...enemyPocemon[key]}
+	// 	pokemonsContext.onSelectedPokemons(key, pokemon);
+	// 	setNewArry(prevState => ({
+	// 		...prevState,
+	// 		[key]: {
+	// 			...prevState[key],
+	// 			selected: !prevState[key].selected,
+	// 		}
+	// 	}))
+	// console.log('enemyPocemon', handleClickCardes)};
+	const handlClickEsc = () =>{
+			history.replace('/game');
 	}
+	// if (Object.keys(pokemons).length === 0) {
+	// 	history.replace('/game');
+	// }
+	
+	const handleClickCardes = (isSelected, selected, key, enemyPocemon) => {
+		if(Object.keys(pokemonsContext.enemyPocemon).length < 1 || selected) {
+			isSelected = !enemyPocemon[key].selected			
+				console.log('####^: ', selected);
+		}
 
-	const handleSelectedEnemyCard = (key) => {
-		const pokemon = {...pokemons[key]}
-		pokemonsContext.onSelectedPokemons(key, pokemon);
-		
-		setNewArry(prevState => ({
-			...prevState,
-			[key]: {
-				...prevState[key],
-				selected: !prevState[key].selected,
-			}
-		}))
-	};
-	console.log('context', pokemonsContext)
-
+	  };
 	return(
 	<>
 	<div className={cm(s.myCard, s.flex)}>
 		{ 
 				Object.entries(pokemonsContext.pokemons).map(([key, {name, img, id, type, values}]) => (					
 					<PokemonCard
-						className={s.card}
 						key={key}
 						name={name}
 						isActive
@@ -59,14 +62,14 @@ const FinishPage = () => {
 		Закончить
 		</button>
 	</div>
-	<div className={s.enemyCard}>
+	<div className={cm(s.myCard, s.flex)}>
 		
 		{
 		 
-			Object.entries(pokemonsContext.enemyPocemon).map(({name, key, img, values, selected, id, type}) => (
+			Object.entries(pokemonsContext.enemyPocemon).map(([key, {name, img, values, selected, id, type}]) => (
 					<PokemonCard
-						className={cm(s.myCard, s.flex)}
-						key={id}
+						className={cm(s.card)}
+						key={key}
 						name={name}
 						isActive
 						isSelected={selected}
@@ -74,11 +77,7 @@ const FinishPage = () => {
 						id={id}
 						type={type}
 						values={values}
-						handleClickCardes={() =>{
-							if(Object.keys(pokemonsContext.enemyPocemon).length < 1 || selected) {
-								handleSelectedEnemyCard(key)
-								}
-							}}
+					onClick={handleClickCardes}
 					/>
 			))
 			}

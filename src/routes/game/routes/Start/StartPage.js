@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import PokemonCard from "../../../../PokemonGame/index.js";
 import s from "./style.module.css";
 import {useHistory} from "react-router-dom"
@@ -18,7 +18,9 @@ const StartPage = () => {
 
 		 return () => firebase.offPocemonSoket();
 	}, []);
-
+	useEffect(() => {
+		return pokemonsContext.oncleanStateSelected()
+	}, [])
 
 	const handleSelected = (key) => {
 		const pokemon = {...pokemons[key]}

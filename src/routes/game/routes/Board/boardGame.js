@@ -21,7 +21,7 @@ import s from "./style.module.css";
  };
 
 const BoardPage = () => {
-     const {pokemons} = useContext(PokemonsContext);
+   const {pokemons, onSelectedEnemyPokemons} = useContext(PokemonsContext)
      const history = useHistory();
      const [choiseCard, setChoiseCard] = useState(null);
      const [steep, setSteep] = useState(0);
@@ -69,6 +69,7 @@ const BoardPage = () => {
       })
        }
      }
+
      useEffect(()=>{
          if (steep === 9) {
             const [count1, count2] = counterCard(board, player1, player2);
@@ -84,26 +85,27 @@ const BoardPage = () => {
          }
      }, [steep]);
 
-     useEffect( async () => {
-
-      
-         const boardResponse = await fetch('https://reactmarathon-api.netlify.app/api/board');
+     useEffect(() => {
+       async function boardResponses() {
+           const boardResponse = await fetch('https://reactmarathon-api.netlify.app/api/board');
         const boardRequest = await boardResponse.json();
         setBoard(boardRequest.data)
-    
-     
-          const player2Response = await fetch('https://reactmarathon-api.netlify.app/api/create-player');
-        const player2Request = await player2Response.json();
-        
-            
-        setPlayer2(()=>{
+       } 
+    async function player2Responses() {
+      const player2Response = await fetch('https://reactmarathon-api.netlify.app/api/create-player');
+      const player2Request = await player2Response.json();
+      onSelectedEnemyPokemons(player2Request.data);
+      setPlayer2(()=>{
          return player2Request.data.map(item=>({
             ...item,
-            possession: 'red' }))
-
-      })
-      PokemonsContext.onSelectedEnemyPokemons(setPlayer2);
-
+            possession: 'red'
+          }))}) 
+      console.log('onSelectedEnemyPokemons: ', onSelectedEnemyPokemons);
+       
+   }
+        
+      boardResponses();
+     player2Responses();
       }, []);
 
      if (Object.keys(pokemons).length === 0) {
