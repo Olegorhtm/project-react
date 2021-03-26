@@ -3,13 +3,12 @@ import PokemonCard from "../../../../PokemonGame/index.js";
 import s from "./style.module.css";
 import {useHistory} from "react-router-dom"
 import {FirebaseContext} from "../../../../context/firebaseContext.js";
-import { PokemonContext} from '../../../../context/contextPokemon.js';
+import {PokemonsContext} from '../../../../context/contextPokemon.js';
 
 const StartPage = () => {
 	const firebase = useContext(FirebaseContext);
-	const pokemonsContext = useContext(PokemonContext);
+	const pokemonsContext = useContext(PokemonsContext);
 	const history = useHistory();
-	console.log('####: pokemonsContext', pokemonsContext);
 	const [pokemons, setNewArry] = useState({});
 
 	useEffect(() => {
@@ -22,8 +21,8 @@ const StartPage = () => {
 
 
 	const handleSelected = (key) => {
-		const pokemon = {...pokemons[key]};
-		pokemonsContext.handelSelectCard(key, pokemon);
+		const pokemon = {...pokemons[key]}
+		pokemonsContext.onSelectedPokemons(key, pokemon);
 		
 		setNewArry(prevState => ({
 			...prevState,
@@ -53,7 +52,7 @@ const StartPage = () => {
 
 		<div className={s.flex}>
 			{
-				Object.entries(pokemons).map(([key, { keyId, name, img, selected, id, type, values}]) => (
+				Object.entries(pokemons).map(([key, { name, img, selected, id, type, values}]) => (
 				
 					<PokemonCard
 						className={s.card}
@@ -66,7 +65,7 @@ const StartPage = () => {
 						id={id}
 						type={type}
 						values={values}
-						handleClickCards={() =>{
+						handleClickCardes={() =>{
 							if(Object.keys(pokemonsContext.pokemons).length < 5 || selected) {
 									handleSelected(key)
 								}
