@@ -11,12 +11,13 @@
 }
 .flex {
  display: grid;
- grid-template-columns: auto auto auto;
- grid-gap: 40px;
+ grid-template-columns: auto auto auto auto auto;
+ grid-gap: 20px;
 }
 .card{
 	font-size: 18px;
 	width: 100%;
+	min-width: 80px;
 	height: 380px;
 	cursor: pointer;
 }
